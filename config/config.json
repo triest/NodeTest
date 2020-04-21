@@ -1,0 +1,11 @@
+{
+  "database": {
+    "database": "testdb",
+    "user": "root",
+    "password": "",
+    "dialect": "mysql",
+    "options": {
+      "dialect": "mysql"
+    }
+  }
+}
