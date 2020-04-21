@@ -6,6 +6,9 @@ exports.index = async function(req, res, next) {
     } catch (err) {
         return next(err);
     }
+    if (!users) {
+        return res.send(404);
+    }
     return res.json(users);
 
 };
