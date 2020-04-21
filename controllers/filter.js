@@ -17,12 +17,3 @@ exports.validateName = function(req, res, next) {
     next();
 };
 
-exports.validatePutName = function(req, res, next) {
-    let name = req.body.name;
-    if (typeof name !== "string" || name == "") {
-        return res.send(400);
-    } else {
-        res.locals.name = name;
-    }
-    next();
-};

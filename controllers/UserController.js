@@ -7,7 +7,6 @@ exports.index = async function(req, res, next) {
         return next(err);
     }
     return res.json(users);
-    return  res.json("{users:users}")
 
 };
 
