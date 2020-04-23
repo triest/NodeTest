@@ -7,5 +7,7 @@
     "options": {
       "dialect": "mysql"
     }
-  }
+  },
+  "port": 3004,
+  "host": "http://127.0.0.1"
 }

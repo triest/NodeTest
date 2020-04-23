@@ -3,7 +3,7 @@ let CorrectPost = {
 };
 
 let IncorrectPost = {
-    noname: ""
+    name: ""
 };
 
 let EmptyNamePost = {
@@ -14,16 +14,20 @@ let UpdatePut = {
     name: "put"
 };
 
+
+
 var lastid;
 
 describe("User test", function() {
     const assert = require("assert");
     const request = require("request");
-    const host = "http://127.0.0.1:3000";
+    const host = require("../config/config.json").host;
+    let port = require("../config/config.json").port;
+    let url=host+":"+port
     it("test post", function(done) {
         request(
             {
-                url: host + "/users",
+                url: url + "/users",
                 method: "POST",
                 json: true,
                 body: CorrectPost
@@ -41,7 +45,7 @@ describe("User test", function() {
     it("empty name in post", function(done) {
         request(
             {
-                url: host + "/users",
+                url: url + "/users",
                 method: "POST",
                 json: true,
                 body: EmptyNamePost
@@ -57,7 +61,7 @@ describe("User test", function() {
     it("test get", function(done) {
         request(
             {
-                url: host + "/users/",
+                url: url + "/users/",
                 method: "get",
                 json: false
             },
@@ -75,7 +79,7 @@ describe("User test", function() {
     it("test get single", function(done) {
         request(
             {
-                url: host + "/users/" + lastid,
+                url: url + "/users/" + lastid,
                 method: "get",
                 json: false
             },
@@ -93,7 +97,7 @@ describe("User test", function() {
     it("fail  get single", function(done) {
         request(
             {
-                url: host + "/users/" + 9999999,
+                url: url + "/users/" + 9999999,
                 method: "get",
                 json: false
             },
@@ -108,7 +112,7 @@ describe("User test", function() {
     it("wrong id type in get", function(done) {
         request(
             {
-                url: host + "/users/" + "it is id",
+                url: url + "/users/" + "it is id",
                 method: "get",
                 json: false
             },
@@ -123,7 +127,7 @@ describe("User test", function() {
     it("no valid name in post", function(done) {
         request(
             {
-                url: host + "/users",
+                url: url + "/users",
                 method: "POST",
                 json: true,
                 body: IncorrectPost
@@ -139,7 +143,7 @@ describe("User test", function() {
     it("test update", function(done) {
         request(
             {
-                url: host + "/users/" + lastid,
+                url: url + "/users/" + lastid,
                 method: "PUT",
                 json: true,
                 body: UpdatePut
@@ -157,7 +161,7 @@ describe("User test", function() {
     it("incorrect update,wrong id", function(done) {
         request(
             {
-                url: host + "/users/" + "fff",
+                url: url + "/users/" + "fff",
                 method: "PUT",
                 json: true,
                 body: UpdatePut
@@ -173,7 +177,7 @@ describe("User test", function() {
     it("incorrect update,wrong name", function(done) {
         request(
             {
-                url: host + "/users/" + lastid,
+                url: url + "/users/" + lastid,
                 method: "PUT",
                 json: true,
                 body: IncorrectPost
@@ -189,7 +193,7 @@ describe("User test", function() {
     it("valid delete", function(done) {
         request(
             {
-                url: host + "/users/" + lastid,
+                url: url + "/users/" + lastid,
                 method: "DELETE",
                 json: true
             },
@@ -198,7 +202,7 @@ describe("User test", function() {
                 assert.strictEqual(response.statusCode, 200);
                 request(
                     {
-                        url: host + "/users/" + lastid,
+                        url: url + "/users/" + lastid,
                         method: "get",
                         json: false
                     },
@@ -212,10 +216,10 @@ describe("User test", function() {
         );
     });
 
-    it("incalid id in delete", function(done) {
+    it("invalid id in delete", function(done) {
         request(
             {
-                url: host + "/users/" + "ds",
+                url: url + "/users/" + "ds",
                 method: "DELETE",
                 json: true
             },
@@ -230,7 +234,7 @@ describe("User test", function() {
     it("delete not found id", function(done) {
         request(
             {
-                url: host + "/users/" + 99999999999,
+                url: url + "/users/" + 99999999999,
                 method: "DELETE",
                 json: true
             },
