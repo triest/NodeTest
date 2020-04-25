@@ -8,6 +8,6 @@
       "dialect": "mysql"
     }
   },
-  "port": 3004,
+  "port": 3006,
   "host": "http://127.0.0.1"
 }
