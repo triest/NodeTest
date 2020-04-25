@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Users List</title>
+</head>
+
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<div id="app">
+    <div id="edit-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                    <input type="text" v-model="currnentName">
+                    <button class="btn" @click="saveEdit()">Редактировать</button>
+                    <button class="btn" @click="hideEditModal()">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Добавить нового пользователя:
+                </div>
+                <div class="modal-body">
+                    <input type="text" v-model="currnentName">
+                    <button class="btn" @click="newUser()">Создать</button>
+                </div>
+                <button class="btn" @click="hideAddModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <button class="btn" @click="addModal()">Добавить пользователя</button>
+    <p>Пользователи:</p>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="user in users">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td> <button class="btn" @click="deleteUser(user)"><i class="fa fa-trash"></i></button>
+            <td><button class="btn" @click="editModel(user)">Редактировать</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            users: [],
+            currentId: '',
+            currnentName: '',
+            name: '',
+        },
+        methods: {
+            hideAddModal: function () {
+                $("#add-modal").modal('hide');
+            },
+            hideEditModal: function () {
+                $("#edit-modal").modal('hide');
+            },
+            addModal: function () {
+                this.currnentName = "";
+                $("#add-modal").modal('show');
+            },
+            getUsers: function () {
+                this.users = [];
+                axios
+                    .get('/users')
+                    .then(
+                        response => {
+                            this.users = response.data;
+                        }
+                    )
+                    .catch(
+                        error => console.log(error)
+                    )
+            },
+            deleteUser(item) {
+                axios.delete('/users/' + item.id)
+                    .then(() => {
+                        this.getUsers();
+                    });
+            },
+            editModel(user) {
+                this.currentId = user.id;
+                this.currnentName = user.name;
+                $("#edit-modal").modal('show');
+            },
+            saveEdit() {
+                if (this.currnentName != "" && this.currentId != "") {
+                    axios.put('/users/' + this.currentId, { name: this.currnentName })
+                        .then(
+                            response => {
+                                if (response.status == 200) {
+                                    this.name = "";
+                                    alert("Запись изменена!");
+                                    this.hideAddModal();
+                                }
+                                else {
+                                    alert("Ошибка!");
+                                    this.hideAddModal();
+                                }
+                                this.getUsers();
+                            }
+                        )
+                        .catch(
+                        )
+                    $("#edit-modal").modal('hide');
+                } else {
+                    alert("Нет данных")
+                }
+
+                this.getUsers();
+            },
+            newUser() {
+                let formData = new FormData();
+                if (this.currnentName == "") {
+                    alert("Введите имя")
+                }
+                else {
+                    formData.append('name', this.currnentName);
+                    pleaseinputname = false;
+                    axios
+                        .post('/users', { name: this.currnentName })
+                        .then(
+                            response => {
+                                if (response.status == 201) {
+                                    this.name = "";
+                                    alert("Запись создана!");
+                                    this.hideAddModal();
+                                }
+                                else {
+                                    alert("Ошибка!");
+                                    this.hideAddModal();
+                                }
+                                this.getUsers();
+                            }
+                        )
+                        .catch(
+                        )
+                    getUsers()
+                }
+            }
+        },
+        beforeMount() {
+            this.getUsers()
+        }
+    })
+</script>
+</body>
+
+</html>

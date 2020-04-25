@@ -8,6 +8,7 @@
       "dialect": "mysql"
     }
   },
-  "port": 3006,
-  "host": "http://127.0.0.1"
+  "port": 3004,
+  "host": "http://127.0.0.1",
+  "starWarsUrl": "https://swapi.dev/api/planets/"
 }
