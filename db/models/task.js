@@ -15,28 +15,34 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true
             },
             beginDate: {
-                field: "bigin_at",
-                type: DataTypes.DATE
+                field: "begin_at",
+                type: DataTypes.DATE,
+                allowNull: true
             },
             status: {
                 field: "status_id",
-                type: DataTypes.STRING
+                type: DataTypes.INTEGER,
+                allowNull: true
             },
             user_id: {
                 field: "user_id",
-                type: DataTypes.STRING
+                type: DataTypes.INTEGER,
+                allowNull: true
             },
             description: {
                 field: "description",
-                type: DataTypes.STRING
+                type: DataTypes.STRING,
+                allowNull: true
             },
             createdAt: {
                 field: "created_at",
-                type: DataTypes.DATE
+                type: DataTypes.DATE,
+                allowNull: true
             },
             updatedAt: {
                 field: "updated_at",
-                type: DataTypes.DATE
+                type: DataTypes.DATE,
+                allowNull: true
             }
         },
         {

@@ -15,16 +15,16 @@ let UpdatePut = {
 };
 
 
-
 var lastid;
 
-describe("User test", function() {
+describe("User test", function () {
     const assert = require("assert");
     const request = require("request");
     const host = require("../config/config.json").host;
     let port = require("../config/config.json").port;
-    let url=host+":"+port
-    it("test post", function(done) {
+    let url = host + ":" + port
+
+    it("test post", function (done) {
         request(
             {
                 url: url + "/users",
@@ -32,7 +32,7 @@ describe("User test", function() {
                 json: true,
                 body: CorrectPost
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 201);
                 assert.strictEqual(response.body.name, CorrectPost.name);
@@ -42,7 +42,7 @@ describe("User test", function() {
         );
     });
 
-    it("empty name in post", function(done) {
+    it("empty name in post", function (done) {
         request(
             {
                 url: url + "/users",
@@ -50,7 +50,7 @@ describe("User test", function() {
                 json: true,
                 body: EmptyNamePost
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 400);
                 done();
@@ -58,32 +58,32 @@ describe("User test", function() {
         );
     });
 
-    it("test get", function(done) {
+    it("test get", function (done) {
         request(
             {
                 url: url + "/users/",
                 method: "get",
                 json: false
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 200);
-              //  body = JSON.parse(body);
-             //   assert.strictEqual(typeof body[0].name, "string");
-             //   assert.strictEqual(body[0].name, CorrectPost.name);
+                //  body = JSON.parse(body);
+                //   assert.strictEqual(typeof body[0].name, "string");
+                //   assert.strictEqual(body[0].name, CorrectPost.name);
                 done();
             }
         );
     });
 
-    it("test get single", function(done) {
+    it("test get single", function (done) {
         request(
             {
                 url: url + "/users/" + lastid,
                 method: "get",
                 json: false
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 200);
                 body = JSON.parse(body);
@@ -94,14 +94,14 @@ describe("User test", function() {
         );
     });
 
-    it("fail  get single", function(done) {
+    it("fail  get single", function (done) {
         request(
             {
                 url: url + "/users/" + 9999999,
                 method: "get",
                 json: false
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 404);
                 done();
@@ -109,14 +109,14 @@ describe("User test", function() {
         );
     });
 
-    it("wrong id type in get", function(done) {
+    it("wrong id type in get", function (done) {
         request(
             {
                 url: url + "/users/" + "it is id",
                 method: "get",
                 json: false
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 400);
                 done();
@@ -124,7 +124,7 @@ describe("User test", function() {
         );
     });
 
-    it("no valid name in post", function(done) {
+    it("no valid name in post", function (done) {
         request(
             {
                 url: url + "/users",
@@ -132,7 +132,7 @@ describe("User test", function() {
                 json: true,
                 body: IncorrectPost
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 400);
                 done();
@@ -140,7 +140,7 @@ describe("User test", function() {
         );
     });
 
-    it("test update", function(done) {
+    it("test update", function (done) {
         request(
             {
                 url: url + "/users/" + lastid,
@@ -148,7 +148,7 @@ describe("User test", function() {
                 json: true,
                 body: UpdatePut
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 200);
                 assert.strictEqual(typeof response.body.name, "string");
@@ -158,7 +158,7 @@ describe("User test", function() {
         );
     });
 
-    it("incorrect update,wrong id", function(done) {
+    it("incorrect update,wrong id", function (done) {
         request(
             {
                 url: url + "/users/" + "fff",
@@ -166,7 +166,7 @@ describe("User test", function() {
                 json: true,
                 body: UpdatePut
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 400);
                 done();
@@ -174,7 +174,7 @@ describe("User test", function() {
         );
     });
 
-    it("incorrect update,wrong name", function(done) {
+    it("incorrect update,wrong name", function (done) {
         request(
             {
                 url: url + "/users/" + lastid,
@@ -182,7 +182,7 @@ describe("User test", function() {
                 json: true,
                 body: IncorrectPost
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 400);
                 done();
@@ -190,14 +190,14 @@ describe("User test", function() {
         );
     });
 
-    it("valid delete", function(done) {
+    it("valid delete", function (done) {
         request(
             {
                 url: url + "/users/" + lastid,
                 method: "DELETE",
                 json: true
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 200);
                 request(
@@ -206,7 +206,7 @@ describe("User test", function() {
                         method: "get",
                         json: false
                     },
-                    function(err, response, body) {
+                    function (err, response, body) {
                         assert.strictEqual(err, null);
                         assert.strictEqual(response.statusCode, 404);
                     }
@@ -216,14 +216,14 @@ describe("User test", function() {
         );
     });
 
-    it("invalid id in delete", function(done) {
+    it("invalid id in delete", function (done) {
         request(
             {
                 url: url + "/users/" + "ds",
                 method: "DELETE",
                 json: true
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 400);
                 done();
@@ -231,14 +231,14 @@ describe("User test", function() {
         );
     });
 
-    it("delete not found id", function(done) {
+    it("delete not found id", function (done) {
         request(
             {
                 url: url + "/users/" + 99999999999,
                 method: "DELETE",
                 json: true
             },
-            function(err, response, body) {
+            function (err, response, body) {
                 assert.strictEqual(err, null);
                 assert.strictEqual(response.statusCode, 404);
                 done();
